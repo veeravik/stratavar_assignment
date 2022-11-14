@@ -1,4 +1,4 @@
-import datetime,xlrd
+import datetime, xlrd
 import os
 
 
@@ -74,14 +74,38 @@ class ProcessSheet:
 
 
 
+class ProcessSheetTest:
+    '''Class for running the program class and testing'''
+
+    def __init__(self, filename, expected_output):
+        '''initialize the test class'''
+
+        self.filename = filename
+        self.expected_output = expected_output
+
+    def test_run(self):
+        '''Test the program'''
+
+        ps = ProcessSheet(self.filename)
+        actual_output = ps.process_file()
+
+        if (len(actual_output) == len(self.expected_output) and all(x in self.expected_output for x in actual_output)):
+            return "Test case has passed"
+
+        else:
+            return "Test case has failed"
 
 
-filename = "./python_skill_test.xlsx"
-ps = ProcessSheet(filename)
-print(ps.process_file())
 
 
-            
+    
+
+
+filename = "./files/python_skill_test.xlsx"
+expected_output = {'Quote Number': 98765.0, 'Date': '2019-01-01', 'Ship To': 'USA', 'Name': 'Rapahel Epstein', 'Items': [{'LineNumber': 1.0, 'PartNumber': 'ABC', 'Description': 'Very Good', 'Price': 200.2}, {'LineNumber': 2.0, 'PartNumber': 'DEF', 'Description': 'Not so good', 'Price': 100.1}]}
 
 
 
+ps = ProcessSheetTest(filename, expected_output)
+
+print(ps.test_run()) #It will return Test case has passed if expected = actual and fail if not equal
